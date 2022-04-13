@@ -10,6 +10,7 @@ start_date = psg.popup_get_date(1,1,title="First day",no_titlebar=False)
 start_date = '{}-{}-{} 00:01 AM'.format(start_date[2],start_date[0],start_date[1])
 FILE_TYPES_CSV = (("CSV Files", "*.csv *.csv"),)
 output_file = psg.popup_get_file("Save as",default_extension="csv",default_path="rows_per_day.csv",file_types=FILE_TYPES_CSV)
+chart_title = psg.popup_get_text("Enter the chart title",default_text="Student Absences")
 
 # Thank you for advice on using the win32com API from:
 # https://www.codeforests.com/2021/05/16/python-reading-email-from-outlook-2/?msclkid=059450b5bacf11ec9d31f1c4756891a2
@@ -51,6 +52,8 @@ for inx, folder in Oli(mapi.Folders).items():
                     rows_per_day[day] = row_count
 
 with open(output_file, 'w') as f:
-    f.write('Date,Student Absences\n')
+    f.write('Date,%s\n' % chart_title)
     for key in rows_per_day.keys():
         f.write("%s, %s\n" % (key, rows_per_day[key]))
+
+print(output_file, "written with", len(rows_per_day), "records")
